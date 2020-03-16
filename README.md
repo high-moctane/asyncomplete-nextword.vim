@@ -1,9 +1,9 @@
-# asyncomplete-nextword.vim (WIP)
+# asyncomplete-nextword.vim
 Provides English autocomplete for asyncomplete.vim via nextword.
 
 ## Screenshot
 
-![powa](images/screenshot.gif)
+![screenshot.gif](images/screenshot.gif)
 
 ## Installing
 
