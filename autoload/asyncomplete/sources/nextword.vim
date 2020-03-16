@@ -1,4 +1,4 @@
-augroup asyncomplete#nextword
+augroup asyncomplete#sources#nextword#augroup
     autocmd!
     autocmd VimLeave * s:stop_nextword()
 augroup END
