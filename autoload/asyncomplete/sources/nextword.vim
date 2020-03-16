@@ -36,13 +36,18 @@ function! s:on_event(job_id, data, event)
 
     let l:startcol = strridx(s:ctx['typed'], " ") + 2
     let l:candidates = split(a:data[0], " ")
+    let l:items = s:generate_items(l:candidates)
     call asyncomplete#log(l:startcol)
-    call asyncomplete#complete("nextword", s:ctx, l:startcol, l:candidates)
+    call asyncomplete#complete("nextword", s:ctx, l:startcol, l:items)
+endfunction
+
+function! s:generate_items(candidates)
+    return map(a:candidates, '{"word": v:val, "kind": "[Nextword]"}')
 endfunction
 
 function! s:stop_nextword()
     call async#job#stop(s:nextword_job)
 endfunction
 
-let s:nextword_job = async#job#start(['nextword', '-c', '1000'], {'on_stdout': function('s:on_event')})
+let s:nextword_job = async#job#start(['nextword', '-c', '10000'], {'on_stdout': function('s:on_event')})
 let s:ctx = {}
