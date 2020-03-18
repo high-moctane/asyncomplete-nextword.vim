@@ -1,5 +1,5 @@
 # asyncomplete-nextword.vim
-Provides English autocomplete for asyncomplete.vim via nextword.
+Provides intelligent English autocomplete for asyncomplete.vim via nextword.
 
 ## Screenshot
 
