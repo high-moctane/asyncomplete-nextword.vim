@@ -15,3 +15,21 @@ Plug 'high-moctane/asyncomplete-nextword.vim'
 
 You also need to install [Nextword](https://github.com/high-moctane/nextword) and
 [Nextword-data](https://github.com/high-moctane/nextword-data).
+
+### Registration
+
+```vim
+call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_options({
+            \   'name': 'nextword',
+            \   'whitelist': ['*'],
+            \   'args': ['-n', '10000'],
+            \   'completor': function('asyncomplete#sources#nextword#completor')
+            \   }))
+```
+
+Note: `args` is optional. it will be passed as the `nextword` arguments.
+
+## License
+
+MIT
+

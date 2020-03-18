@@ -3,17 +3,27 @@ augroup asyncomplete#sources#nextword#augroup
     autocmd VimLeave * s:stop_nextword()
 augroup END
 
-function! asyncomplete#sources#nextword#get_source_options(opt)
+function! asyncomplete#sources#nextword#get_source_options(opt) abort
+    if !exists('a:opt["args"]')
+        let a:opt['args'] = ['-n', '10000']
+    endif
+
+    if !exists('s:nextword_job')
+        let s:nextword_job = async#job#start(['nextword'] + a:opt['args'], {'on_stdout': function('s:on_event')})
+        let s:ctx = {}
+    endif
+
     return a:opt
 endfunction
 
-function! asyncomplete#sources#nextword#completor(opt, ctx)
+function! asyncomplete#sources#nextword#completor(opt, ctx) abort
     if s:nextword_job <= 0
         return
     endif
 
     let l:typed = s:get_typed_string(a:ctx)
     let s:ctx = a:ctx
+    let s:opt = a:opt
     call async#job#send(s:nextword_job, l:typed . "\n")
 endfunction
 
@@ -38,7 +48,7 @@ function! s:on_event(job_id, data, event)
     let l:candidates = split(a:data[0], " ")
     let l:items = s:generate_items(l:candidates)
     call asyncomplete#log(l:startcol)
-    call asyncomplete#complete("nextword", s:ctx, l:startcol, l:items)
+    call asyncomplete#complete(s:opt['name'], s:ctx, l:startcol, l:items)
 endfunction
 
 function! s:generate_items(candidates)
@@ -49,5 +59,3 @@ function! s:stop_nextword()
     call async#job#stop(s:nextword_job)
 endfunction
 
-let s:nextword_job = async#job#start(['nextword', '-c', '10000'], {'on_stdout': function('s:on_event')})
-let s:ctx = {}
