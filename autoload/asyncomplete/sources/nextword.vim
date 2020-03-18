@@ -10,6 +10,9 @@ function! asyncomplete#sources#nextword#get_source_options(opt) abort
 
     if !exists('s:nextword_job')
         let s:nextword_job = async#job#start(['nextword'] + a:opt['args'], {'on_stdout': function('s:on_event')})
+        if s:nextword_job <= 0
+            call asyncomplete#log("nextword launch failed")
+        endif
         let s:ctx = {}
     endif
 
@@ -47,7 +50,6 @@ function! s:on_event(job_id, data, event)
     let l:startcol = strridx(s:ctx['typed'], " ") + 2
     let l:candidates = split(a:data[0], " ")
     let l:items = s:generate_items(l:candidates)
-    call asyncomplete#log(l:startcol)
     call asyncomplete#complete(s:opt['name'], s:ctx, l:startcol, l:items)
 endfunction
 
