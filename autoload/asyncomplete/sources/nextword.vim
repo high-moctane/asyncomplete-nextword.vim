@@ -1,6 +1,6 @@
 augroup asyncomplete#sources#nextword#augroup
     autocmd!
-    autocmd VimLeave * s:stop_nextword()
+    autocmd VimLeave * call s:stop_nextword()
 augroup END
 
 function! asyncomplete#sources#nextword#get_source_options(opt) abort
@@ -43,7 +43,7 @@ function! s:get_typed_string(ctx)
 endfunction
 
 function! s:on_event(job_id, data, event)
-    if a:event != 'stdout'
+    if a:event != 'stdout' || !has_key(s:ctx, 'typed')
         return
     endif
 
@@ -58,6 +58,8 @@ function! s:generate_items(candidates)
 endfunction
 
 function! s:stop_nextword()
-    call async#job#stop(s:nextword_job)
+    if exists('s:nextword_job') && s:nextword_job > 0
+        call async#job#stop(s:nextword_job)
+    endif
 endfunction
 
