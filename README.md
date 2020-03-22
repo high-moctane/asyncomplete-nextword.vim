@@ -29,6 +29,11 @@ call asyncomplete#register_source(asyncomplete#sources#nextword#get_source_optio
 
 Note: `args` is optional. it will be passed as the `nextword` arguments.
 
+## Contributors
+
+- high-moctane ([https://github.com/high-moctane](https://github.com/high-moctane))
+- Rafael Bodill ([https://github.com/rafi](https://github.com/rafi))
+
 ## License
 
 MIT
