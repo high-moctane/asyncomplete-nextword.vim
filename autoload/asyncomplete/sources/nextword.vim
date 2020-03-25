@@ -11,7 +11,7 @@ function! asyncomplete#sources#nextword#get_source_options(opt) abort
     if !exists('s:nextword_job')
         let s:nextword_job = async#job#start(['nextword'] + a:opt['args'], {'on_stdout': function('s:on_event')})
         if s:nextword_job <= 0
-            call asyncomplete#log("nextword launch failed")
+            echoerr "nextword launch failed"
         endif
         let s:ctx = {}
     endif
