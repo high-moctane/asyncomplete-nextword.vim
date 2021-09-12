@@ -54,7 +54,7 @@ function! s:on_event(job_id, data, event)
 endfunction
 
 function! s:generate_items(candidates)
-    return map(a:candidates, '{"word": v:val, "kind": "[Nextword]"}')
+    return map(a:candidates, '{"word": v:val, "menu": "[Nextword]"}')
 endfunction
 
 function! s:stop_nextword()
